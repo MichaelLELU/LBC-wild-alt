@@ -7,7 +7,7 @@ GET http://localhost:3000/ads
 GET http://localhost:3000/ads/2
 
 ###
-DELETE  http://localhost:3000/ads/4
+DELETE  http://localhost:3000/ads/415
 
 ###
 POST http://localhost:3000/ads
