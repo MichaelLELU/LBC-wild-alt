@@ -1,5 +1,8 @@
+import "reflect-metadata";
 import express from "express";
 import sqlite3 from "sqlite3";
+import { dataSource } from "./db";
+import { Ad } from "./entities/Ad";
 
 const db = new sqlite3.Database("./LBC.sqlite");
 
@@ -9,48 +12,55 @@ const PORT = 3000;
 
 app.use(express.json());
 
-app.get("/ads/:id", (req, res) => {
-  db.all("SELECT * FROM ad WHERE id = ?", [req.params.id], (err, rows) => {
-    if (!rows) {
-      return res.status(404).send("Ad not found");
-    }
-    res.status(200).send(rows);
-  });
+app.get("/ads/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+  try {
+    const ad = await Ad.findOneBy({ id });
+    res.send(ad);
+  } catch (err) {
+    res.status(404).send("Ad not found");
+  }
 });
 
-app.get("/ads", (req, res) => {
-  db.all("SELECT * FROM ad", (err, rows) => {
-    if (err) {
-      return res.status(404).send(err);
-    }
-    res.status(200).send(rows);
-  });
+app.get("/ads", async (req, res) => {
+  try {
+    const ads = await Ad.find();
+    res.send(ads);
+  } catch (err) {
+    res.status(404).send("No ads found");
+  }
 });
 
 app.post("/ads", (req, res) => {
   const { title, description, owner, price, picture, location } = req.body;
-  db.run(
-    "INSERT INTO ad (title, description, owner, price, picture, location) VALUES ( ?, ?, ?, ?, ?, ?)",
-    [title, description, owner, price, picture, location],
-    (err) => {
-      if (err) {
-        return res.status(500).send(err);
-      }
+  try {
+    const add = new Ad();
+    add.title = title;
+    add.description = description;
+    add.owner = owner;
+    add.price = price;
+    add.picture = picture;
+    add.location = location;
 
-      res.status(201).send("Ad created");
-    }
-  );
+    add.save();
+
+    res.send(add).status(201);
+  } catch (err) {
+    res.status(400).send("Bad request");
+  }
 });
 
-app.delete("/ads/:id", (req, res) => {
-  db.all("DELETE FROM ad WHERE id = ?", [req.params.id], (err, rows) => {
-    if (!rows) {
-      return res.status(404).send("Ad not found");
-    }
-    res.status(200).send(rows);
-  });
+app.delete("/ads/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+  try {
+    await Ad.delete({ id });
+    res.send("OK Ad deleted").status(205);
+  } catch (err) {
+    res.status(404).send("Problem with the deletion");
+  }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+  await dataSource.initialize();
   console.log(`Server is running on http://localhost:${PORT}`);
 });

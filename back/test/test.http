@@ -7,18 +7,18 @@ GET http://localhost:3000/ads
 GET http://localhost:3000/ads/2
 
 ###
-DELETE  http://localhost:3000/ads/9
+DELETE  http://localhost:3000/ads/4
 
 ###
 POST http://localhost:3000/ads
 Content-Type: application/json
 
 {
-  "title": "Ad 5",
-  "description": "Description 5", 
-  "owner": "Owner 5",
+  "title": "Ad 10",
+  "description": "Description 10", 
+  "owner": "Owner 10",
   "price": 90,
-  "picture": "Image 5",
-  "location": "Location 5"
+  "picture": "Image 10",
+  "location": "Location 10"
 }
 ###
