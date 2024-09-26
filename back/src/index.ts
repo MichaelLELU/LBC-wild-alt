@@ -3,6 +3,7 @@ import express from "express";
 import sqlite3 from "sqlite3";
 import { dataSource } from "./db";
 import { Ad } from "./entities/Ad";
+import { validate } from "class-validator";
 
 const db = new sqlite3.Database("./LBC.sqlite");
 
@@ -15,7 +16,7 @@ app.use(express.json());
 // READ ONE AD
 
 app.get("/ads/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = parseInt(req.params.id, 10);
   try {
     const ad = await Ad.findOneBy({ id });
     if (!ad) {
@@ -43,7 +44,7 @@ app.get("/ads", async (req, res) => {
 
 // CREATE AN AD
 
-app.post("/ads", (req, res) => {
+app.post("/ads", async (req, res) => {
   const { title, description, owner, price, picture, location } = req.body;
   try {
     const add = new Ad();
@@ -54,11 +55,38 @@ app.post("/ads", (req, res) => {
     add.picture = picture;
     add.location = location;
 
-    add.save();
+    const errors = await validate(add);
+    if (errors.length > 0) {
+      throw new Error(`Validation failed!`);
+    } else {
+      await dataSource.manager.save(add);
+    }
 
-    res.send(add).status(201);
+    res.status(201).send(add);
   } catch (err) {
-    res.status(500).send("Bad request");
+    res.status(500).send(`failed to create ad: ${err}`);
+  }
+});
+
+// UPDATE AN AD
+
+app.put("/ad/:id", async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  const { title, description, owner, price, picture, location } = req.body;
+  const ad = await Ad.findOneBy({ id });
+  try {
+    if (ad !== null) {
+      ad.title = title;
+      ad.description = description;
+      ad.owner = owner;
+      ad.price = price;
+      ad.picture = picture;
+      ad.location = location;
+      ad.save();
+    }
+    res.send("OK Ad updated").status(200);
+  } catch (err) {
+    res.status(500).send("Problem with the update");
   }
 });
 
@@ -67,13 +95,13 @@ app.post("/ads", (req, res) => {
 app.delete("/ads/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   try {
-    if (!id) {
-      res.status(204).send("Ad not found");
+    if ((await Ad.findOneBy({ id })) === null) {
+      return res.status(404).send("No ad found");
     }
     await Ad.delete({ id });
     res.send("OK Ad deleted").status(205);
   } catch (err) {
-    res.status(404).send("Problem with the deletion");
+    res.status(500).send("Problem with the deletion");
   }
 });
 
