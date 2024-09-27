@@ -1,5 +1,13 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  TableForeignKey,
+} from "typeorm";
 import { Length } from "class-validator";
+import { Category } from "./Category";
 
 @Entity()
 export class Ad extends BaseEntity {
@@ -35,4 +43,7 @@ export class Ad extends BaseEntity {
     message: "Entre 3 et 100 caractères",
   })
   location!: string;
+
+  @ManyToOne(() => Category, (category) => category.ads)
+  category_id!: Category;
 }
