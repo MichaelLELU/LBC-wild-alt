@@ -1,14 +1,14 @@
-
-GET http://localhost:3000/ads
-
-###
-GET http://localhost:3000/ads/2
+                                                      // AD TESTS
+GET http://localhost:3000/api/ads
 
 ###
-DELETE  http://localhost:3000/ads/1
+GET http://localhost:3000/api/ads/2
 
 ###
-POST http://localhost:3000/ads
+DELETE  http://localhost:3000/api/ads/1
+
+###
+POST http://localhost:3000/api/ads
 Content-Type: application/json
 
 {
@@ -17,11 +17,12 @@ Content-Type: application/json
   "owner": "Owner 10",
   "price": 90,
   "picture": "Image 10",
-  "location": "Location 10"
+  "location": "Location 10",
+  "category_id": 1
 }
 ###
 
-PUT http://localhost:3000/ad/4
+PUT http://localhost:3000/api/ad/3
 Content-Type: application/json
 
 {
@@ -30,5 +31,21 @@ Content-Type: application/json
   "owner": "Owner 1",
   "price": 90,
   "picture": "Image 1",
-  "location": "Location 1"
+  "location": "Location 1",
+  "category_id": 2
 }
+
+                                                     // CATEGORY TESTS
+
+###
+
+POST http://localhost:3000/api/category
+Content-Type: application/json
+
+{
+  "name": "Category 2"
+}
+
+###
+
+GET http://localhost:3000/api/category/1
