@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Table",
+    "price": 120,
+    "image": "/public/table.webp",
+    "link": "/ads/table"
+  },
+  {
+    "title": "Dame-jeanne",
+    "price": 75,
+    "image": "/public/dame-jeanne.webp",
+    "link": "/ads/dame-jeanne"
+  },
+  {
+    "title": "Vide-poche",
+    "price": 4,
+    "image": "/public/vide-poche.webp",
+    "link": "/ads/vide-poche"
+  },
+  {
+    "title": "Vaisselier",
+    "price": 900,
+    "image": "/public/vaisselier.webp",
+    "link": "/ads/vaisselier"
+  },
+  {
+    "title": "Bougie",
+    "price": 8,
+    "image": "/public/bougie.webp",
+    "link": "/ads/bougie"
+  },
+  {
+    "title": "Porte-magazine",
+    "price": 45,
+    "image": "/public/porte-magazine.webp",
+    "link": "/ads/porte-magazine"
+  }
+]
