@@ -1,13 +1,13 @@
+import { Outlet } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
-import Ads from "./components/Ads";
 
 function App() {
   return (
-    <body>
+    <>
       <Header />
-      <Ads />
-    </body>
+      <Outlet />
+    </>
   );
 }
 
