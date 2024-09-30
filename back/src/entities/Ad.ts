@@ -4,10 +4,11 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
-  TableForeignKey,
+  ManyToMany,
 } from "typeorm";
 import { Length } from "class-validator";
 import { Category } from "./Category";
+import { Tag } from "./Tag";
 
 @Entity()
 export class Ad extends BaseEntity {
@@ -46,4 +47,7 @@ export class Ad extends BaseEntity {
 
   @ManyToOne(() => Category, (category) => category.ads)
   category_id!: Category;
+
+  @ManyToMany(() => Tag, (tag) => tag.ads_id)
+  tags_id!: Tag[];
 }
