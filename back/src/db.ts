@@ -5,7 +5,7 @@ export const dataSource = new DataSource({
   database: "./LBC.sqlite",
   entities: ["src/entities/*.ts"],
 
-  synchronize: false,
+  synchronize: true,
   migrations: ["src/migrations/*.ts"],
   migrationsTableName: "migrations",
 });

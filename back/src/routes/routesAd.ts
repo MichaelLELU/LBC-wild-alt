@@ -1,12 +1,12 @@
 import express from "express";
 import { dataSource } from "../db";
 import { Ad } from "../entities/Ad";
-import { Category } from "../entities/Category";
+import { Tag } from "../entities/Tag";
 import { validate } from "class-validator";
 
-const app = express.Router();
+const route = express.Router();
 
-const readById = app.get("/ads/:id", async (req, res) => {
+const readById = route.get("/ads/:id", async (req, res) => {
   const id = parseInt(req.params.id, 10);
   try {
     const ad = await Ad.findOneBy({ id });
@@ -21,7 +21,7 @@ const readById = app.get("/ads/:id", async (req, res) => {
 
 // READ ALL ADS
 
-const read = app.get("/ads", async (req, res) => {
+const read = route.get("/ads", async (req, res) => {
   try {
     const ads = await Ad.find();
     if (!ads) {
@@ -35,9 +35,17 @@ const read = app.get("/ads", async (req, res) => {
 
 // CREATE AN AD
 
-const addAd = app.post("/ads", async (req, res) => {
-  const { title, description, owner, price, picture, location, category_id } =
-    req.body;
+const addAd = route.post("/ads", async (req, res) => {
+  const {
+    title,
+    description,
+    owner,
+    price,
+    picture,
+    location,
+    category_id,
+    tags_id,
+  } = req.body;
   try {
     const add = new Ad();
     add.title = title;
@@ -47,6 +55,7 @@ const addAd = app.post("/ads", async (req, res) => {
     add.picture = picture;
     add.location = location;
     add.category_id = category_id;
+    add.tags_id = [tags_id];
 
     const errors = await validate(add);
     if (errors.length > 0) {
@@ -63,10 +72,18 @@ const addAd = app.post("/ads", async (req, res) => {
 
 // UPDATE AN AD
 
-const update = app.put("/ad/:id", async (req, res) => {
+const update = route.put("/ad/:id", async (req, res) => {
   const id = parseInt(req.params.id, 10);
-  const { title, description, owner, price, picture, location, category_id } =
-    req.body;
+  const {
+    title,
+    description,
+    owner,
+    price,
+    picture,
+    location,
+    category_id,
+    tags_id,
+  } = req.body;
   const ad = await Ad.findOneBy({ id });
   try {
     if (ad !== null) {
@@ -77,6 +94,7 @@ const update = app.put("/ad/:id", async (req, res) => {
       ad.picture = picture;
       ad.location = location;
       ad.category_id = category_id;
+      ad.tags_id = [tags_id];
       ad.save();
     }
     res.send("OK Ad updated").status(200);
@@ -87,7 +105,7 @@ const update = app.put("/ad/:id", async (req, res) => {
 
 // DELETE AN AD
 
-const supp = app.delete("/ads/:id", async (req, res) => {
+const supp = route.delete("/ads/:id", async (req, res) => {
   const id = parseInt(req.params.id);
   try {
     if ((await Ad.findOneBy({ id })) === null) {

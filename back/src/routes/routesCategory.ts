@@ -3,14 +3,13 @@ import express from "express";
 import { dataSource } from "../db";
 import { Ad } from "../entities/Ad";
 import { Category } from "../entities/Category";
-
 import { validate } from "class-validator";
 
-const app = express.Router();
+const route = express.Router();
 
 //                                                        CATEGORY ROUTES
 
-const add = app.post("/category", async (req, res) => {
+const add = route.post("/category", async (req, res) => {
   try {
     const add = new Category();
     add.name = req.body.name;
@@ -26,7 +25,7 @@ const add = app.post("/category", async (req, res) => {
   }
 });
 
-const readBy = app.get("/category/:id", async (req, res) => {
+const readBy = route.get("/category/:id", async (req, res) => {
   const id = parseInt(req.params.id, 10);
   const category = await Category.findOneBy({ id });
   try {

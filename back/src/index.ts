@@ -1,9 +1,6 @@
 import "reflect-metadata";
 import express from "express";
-import sqlite3 from "sqlite3";
 import { dataSource } from "./db";
-
-const db = new sqlite3.Database("./LBC.sqlite");
 
 const app = express();
 
@@ -17,7 +14,13 @@ app.use("/api", add, readBy);
 
 const { readById, read, addAd, update, supp } = require("./routes/routesAd");
 
-app.use("/api", readById, read, add, update, supp);
+app.use("/api", readById, read, addAd, update, supp);
+
+const { readTag, suppTag, addTag, readAdByTag } = require("./routes/routesTag");
+
+app.use("/api", readTag, suppTag, addTag, readAdByTag);
+
+app.use("/api", read, supp);
 
 app.listen(PORT, async () => {
   await dataSource.initialize();
