@@ -34,7 +34,7 @@ Content-Type: application/json
   "picture": "Image 1",
   "location": "Location 1",
   "category_id": 2,
-  "tags_id": 1 2 
+  "tags_id": [1, 2] 
 }
 
                                                      // CATEGORY TESTS

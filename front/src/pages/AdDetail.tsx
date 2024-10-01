@@ -1,20 +1,14 @@
-import { useParams } from "react-router-dom";
-import data from "../../public/data/data.json";
+import { useLoaderData } from "react-router-dom";
+type ad = { title: string; image: string; price: number; description: string };
 
 export default function AdDetail() {
-  let { title } = useParams();
-
-  title = title!.charAt(0).toUpperCase() + title!.slice(1);
-
-  const ad = data.find((ad) => ad.title === title);
-
-  type ad = { title: string; image: string; price: number };
-
+  const ad = useLoaderData() as ad;
   return (
     <main>
-      <h2>{ad!.title}</h2>
-      <img src={ad!.image} alt={ad!.title} />
-      <h3>{ad!.price} €</h3>
+      <h2>{ad.title}</h2>
+      <img src={ad.image} alt={ad.title} />
+      <h3>{ad.price} €</h3>
+      <p>{ad.description}</p>
     </main>
   );
 }

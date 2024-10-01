@@ -27,6 +27,7 @@ const add = route.post("/category", async (req, res) => {
 
 const readBy = route.get("/category/:id", async (req, res) => {
   const id = parseInt(req.params.id, 10);
+  console.log(id);
   const category = await Category.findOneBy({ id });
   try {
     if (!category) {
@@ -40,4 +41,13 @@ const readBy = route.get("/category/:id", async (req, res) => {
   }
 });
 
-export { add, readBy };
+const readC = route.get("/category", async (req, res) => {
+  try {
+    const categories = await Category.find();
+    res.send(categories);
+  } catch (err) {
+    res.status(500).send("Category not found");
+  }
+});
+
+export { add, readBy, readC };
