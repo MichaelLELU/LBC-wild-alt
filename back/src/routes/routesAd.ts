@@ -44,6 +44,7 @@ const addAd = route.post("/ads", async (req, res) => {
     picture,
     location,
     category_id,
+    createdAt,
     tags_id,
   } = req.body;
   try {
@@ -54,6 +55,7 @@ const addAd = route.post("/ads", async (req, res) => {
     add.price = price;
     add.picture = picture;
     add.location = location;
+    add.createdAt = createdAt;
     add.category_id = category_id;
     add.tags_id = [tags_id];
 

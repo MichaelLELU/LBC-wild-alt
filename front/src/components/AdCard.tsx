@@ -1,22 +1,22 @@
-type Props = {
-  data: {
-    title: string;
-    price: number;
-    image: string;
-    link: string;
-  };
+import { Link } from "react-router-dom";
+
+export type Props = {
+  id: number;
+  title: string;
+  price: number;
+  picture: string;
 };
 
-export default function AdCard({ data }: Props) {
+export default function AdCard({ id, title, price, picture }: Props) {
   return (
     <div className="ad-card-container">
-      <a className="ad-card-link" href={data.link}>
-        <img className="ad-card-image" src={data.image} alt={data.title} />
+      <Link className="ad-card-link" to={`/ads/${id}`}>
+        <img className="ad-card-image" src={picture} alt={title} />
         <div className="ad-card-text">
-          <div className="ad-card-title">{data.title}</div>
-          <div className="ad-card-price">{data.price}€</div>
+          <h3 className="ad-card-title">{title}</h3>
+          <h4 className="ad-card-price">{price}€</h4>
         </div>
-      </a>
+      </Link>
     </div>
   );
 }

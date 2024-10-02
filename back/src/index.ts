@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import express from "express";
 import { dataSource } from "./db";
+import cors from "cors";
 
 const app = express();
 
@@ -8,9 +9,11 @@ const PORT = 3000;
 
 app.use(express.json());
 
-const { add, readBy } = require("./routes/routesCategory");
+app.use(cors());
 
-app.use("/api", add, readBy);
+const { add, readBy, readC } = require("./routes/routesCategory");
+
+app.use("/api", add, readBy, readC);
 
 const { readById, read, addAd, update, supp } = require("./routes/routesAd");
 
