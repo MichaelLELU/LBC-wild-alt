@@ -20,8 +20,6 @@ export default function Ads() {
     fetchData();
   }, []);
 
-  console.log(data);
-
   return (
     <main className="main-content">
       <h2>Annonces récentes</h2>
@@ -29,7 +27,12 @@ export default function Ads() {
       <section className="recent-ads">
         {data?.map((ads, i) => (
           <div key={i}>
-            <AdCard data={ads} />
+            <AdCard
+              title={ads.title}
+              id={ads.id}
+              price={ads.price}
+              picture={ads.picture}
+            />
             <button
               className="button"
               onClick={() => {

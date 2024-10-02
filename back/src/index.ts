@@ -8,6 +8,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+
 app.use(cors());
 
 const { add, readBy, readC } = require("./routes/routesCategory");

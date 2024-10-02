@@ -6,6 +6,7 @@ import Ads from "./pages/Ads.tsx";
 import AdDetail from "./pages/AdDetail.tsx";
 import "./index.css";
 import Category from "./pages/Category.tsx";
+import FormAd from "./pages/FormAd.tsx";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,11 @@ const router = createBrowserRouter([
         element: <Category />,
         loader: ({ params }) =>
           fetch(`http://localhost:3000/api/category/${params.id}`),
+      },
+      {
+        path: "/post-ad",
+        element: <FormAd />,
+        loader: () => fetch(`http://localhost:3000/api/category`),
       },
     ],
   },

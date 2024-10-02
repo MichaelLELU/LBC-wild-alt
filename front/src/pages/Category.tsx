@@ -4,11 +4,11 @@ import AdCard, { Props } from "../components/AdCard";
 export default function Category() {
   const data = useLoaderData() as Props[];
 
-  console.log(data);
-
   return (
     <div className="main-content">
-      {data?.map((c) => <AdCard id={c.id} data={c} />)}
+      {data?.map((c) => (
+        <AdCard title={c.title} id={c.id} price={c.price} picture={c.picture} />
+      ))}
     </div>
   );
 }

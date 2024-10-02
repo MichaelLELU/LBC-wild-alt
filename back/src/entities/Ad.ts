@@ -5,6 +5,8 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   ManyToMany,
+  JoinTable,
+  BeforeInsert,
 } from "typeorm";
 import { Length } from "class-validator";
 import { Category } from "./Category";
@@ -45,9 +47,18 @@ export class Ad extends BaseEntity {
   })
   location!: string;
 
+  @Column()
+  createdAt!: Date;
+
+  @BeforeInsert()
+  updateDates() {
+    this.createdAt = new Date();
+  }
+
   @ManyToOne(() => Category, (category) => category.ads)
   category_id!: Category;
 
   @ManyToMany(() => Tag, (tag) => tag.ads_id)
+  @JoinTable()
   tags_id!: Tag[];
 }
